@@ -1,7 +1,7 @@
 #include<iostream>
 using namespace std;
 
-int reverseNo (int n) {
+int isPallindrome (int n) {
     int lastDigit;
     int reverse = 0;
     while(n > 0) {
@@ -14,7 +14,7 @@ int reverseNo (int n) {
 
 int main() {
     int no = 121;
-    int reversed = reverseNo(no);
+    int reversed = isPallindrome(no);
     if (no == reversed) {
         cout << "Is a pallindrome";
     } else {
