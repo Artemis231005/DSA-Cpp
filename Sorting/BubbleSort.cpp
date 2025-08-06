@@ -12,7 +12,9 @@ void bubbleSort(int arr[], int n) {
 }
 
 void printArray(int arr[], int n) {
-    for (int i = 0; i < n; i++) cout << arr[i] << " ";
+    for (int i = 0; i < n; i++) {
+        cout << arr[i] << " ";
+    }
     cout << endl;
 }
 
