@@ -2,6 +2,7 @@
 #include<stack>
 using namespace std;
 
+// TC: O(N) = O(N) + O(N) + O(N) 
 // SC: O(N) + O(N)  stack and ans will store max of N elem
 int priority (char op) {
     int priorityOp = -1;
@@ -30,7 +31,7 @@ string infixToPostfix(string s) {
             st.push(s[i]);
         }
         else if (s[i] == ')') {
-            while (st.top() != '(') {
+            while (st.top() != '(') {      // This inner while loop will run at most for N elem across ALL iterations, so O(N)
                 ans += st.top();
                 st.pop();
             }
@@ -64,3 +65,6 @@ int main() {
     cout <<"Postfix string is: " << infixToPostfix(s) << endl;
     return 0;
 }
+
+// the inner while loop collectively pops each operator at most one time.
+// Even though the inner loop can run multiple times per iteration, the total number of pops across all iterations is bounded by N.
