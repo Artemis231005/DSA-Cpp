@@ -99,7 +99,7 @@ public:
         }        
     }
 
-    void postOrder2Stack(Node* root) {     // TC: O(N) (each node is visited)  SC: O(N) (worst)
+    void postOrder2Stack(Node* root) {     // TC: O(N) (each node is visited)  SC: O(2N) (worst)
         if (root == NULL) {
             return;
         }
@@ -124,7 +124,46 @@ public:
             cout << st2.top()->data << " ";
             st2.pop();
         }
+
+        // We need 2 stacks as we can't move from child to parent in tree
+        // We basically do modified preorder traversal ie left and right swapped in normal preorder(root → right → left) in st1 and then 
+        // reverse it to get postorder (left → right → root)
     }
+
+    void postOrder1Stack(Node* root) {      // TC: O(2N) (pushing & pooping N nodes in stack)   SC: O(N)
+        if (root == NULL) {
+            return;
+        }
+
+        Node* temp;
+        Node* curr = root;
+        stack<Node*> st;
+
+        while(curr!=NULL || !st.empty()) {
+            if (curr != NULL) {
+                st.push(curr);
+                curr = curr->left;
+            } else {
+                temp = st.top()->right;
+
+                if(temp == NULL) {
+                    temp = st.top();
+                    st.pop();
+                    cout << temp->data << " ";
+
+                    while(!st.empty() && temp == st.top()->right) {
+                        temp = st.top();
+                        st.pop();
+                        cout <<temp->data << " ";
+                    }
+
+                } else {
+                    curr = temp;
+                }
+            }
+        }
+    }
+    
 };
 
 int main() {
@@ -144,7 +183,9 @@ int main() {
     tree.preOrder(tree.root);
     cout << "\nIn-order traversal: ";
     tree.inOrder(tree.root);
-    cout << "\nPost-order traversal: ";
+    cout << "\nPost-order traversal using 2 stacks: ";
     tree.postOrder2Stack(tree.root);
+    cout << "\nPost-order traversal using 1 stack: ";
+    tree.postOrder1Stack(tree.root);
     return 0;
 }
