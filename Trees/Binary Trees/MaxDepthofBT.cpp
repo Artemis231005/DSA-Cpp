@@ -51,18 +51,31 @@ public:
             }
         }
     }
+
+    int maxDepth(Node* root) {      // TC: O(N) (have to traverse to all nodes to check ht)     SC:O(N) (worst case: skewed tree)
+        if (root == NULL) {
+            return 0;
+        }
+
+        int lh = maxDepth(root->left);
+        int rh = maxDepth(root->right);
+
+        return 1 + max(lh, rh);
+    }
 };
 
 int main() {
     BT tree;
-    int n;
-    cout << "Enter no of nodes that you want to enter:";
+    int n, val;
+    cout << "Enter no of nodes that you want to enter: ";
     cin >> n;
 
     cout << "Enter the values in the node: ";
-    for (int i=0; i<n; i++) {
-        cin >> i;
-        tree.insertNode(i);
+    for (int i = 0; i < n; i++) {
+        cin >> val;
+        tree.insertNode(val);
     }
+
+    cout << "Max depth of this BT: " << tree.maxDepth(tree.root);
     return 0;
 }
