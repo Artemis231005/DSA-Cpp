@@ -55,14 +55,14 @@ public:
 
 int main() {
     BT tree;
-    int n;
-    cout << "Enter no of nodes that you want to enter:";
+    int n, val;
+    cout << "Enter no of nodes that you want to enter: ";
     cin >> n;
 
     cout << "Enter the values in the node: ";
     for (int i=0; i<n; i++) {
-        cin >> i;
-        tree.insertNode(i);
+        cin >> val;
+        tree.insertNode(val);
     }
     return 0;
 }
