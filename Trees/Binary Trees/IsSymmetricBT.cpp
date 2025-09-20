@@ -52,7 +52,7 @@ public:
         }
     }
 
-    bool isSymmetricTree (Node* root) {
+    bool isSymmetricTree (Node* root) {      // TC: O(N) (unsymmetric at end ex leaf node)       SC: O(h)
         return root == NULL || isSymmetricHelper(root->left, root->right);
     }
 
