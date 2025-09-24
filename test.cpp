@@ -38,13 +38,13 @@ public:
             Node* curr = q.front();
             q.pop();
 
-            if (vec[i] != "null") {
+            if (i < vec.size() && vec[i] != "null") {
                 curr->left = new Node(stoi(vec[i]));
                 q.push(curr->left);
             }
             i++;
 
-            if (vec[i] != "null") {
+            if (i < vec.size() && vec[i] != "null") {
                 curr->right = new Node(stoi(vec[i]));
                 q.push(curr->right);
             }
