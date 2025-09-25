@@ -22,7 +22,7 @@ public:
         root = NULL;
     }
 
-    void insertNode(int val) {
+    void insertNode(int val) {      // TC: O(log2(N))
         Node* newNode = new Node(val);
         if (root == NULL) {
             root = newNode;
