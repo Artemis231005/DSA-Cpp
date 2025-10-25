@@ -1,7 +1,5 @@
 #include <iostream>
 #include <queue>
-#include <vector>
-#include <string>
 #include <stack>
 using namespace std;
 
@@ -25,129 +23,161 @@ public:
         root = NULL;
     }
 
-    void insertNode(vector<string>& vec) {
-        if (vec.empty() || vec[0] == "null") {
+    void insertNode(int value) {
+        Node* newNode = new Node(value);
+        if (root == NULL) {
+            root = newNode;
             return;
         }
 
-        root = new Node(stoi(vec[0]));
         queue<Node*> q;
         q.push(root);
-        int i = 1;
 
-        while (!q.empty() && i < vec.size()) {
-            Node* curr = q.front();
+        while (!q.empty()) {
+            Node* temp = q.front();
             q.pop();
 
-            if (vec[i] != "null") {
-                curr->left = new Node(stoi(vec[i]));
-                q.push(curr->left);
-            }
-            i++;
-
-            if (vec[i] != "null") {
-                curr->right = new Node(stoi(vec[i]));
-                q.push(curr->right);
-            }
-            i++;
-        }
-    }
-
-    vector<int> BoundaryTraversal (Node* root) {
-        vector<int> ans;
-        if (root == NULL) {
-            return ans;
-        }
-        if (!isLeafNode(root)) {
-            ans.push_back(root->data);
-        }
-        leftBoundary(root, ans);
-        addLeafNodes(root, ans);
-        rightBoundary(root, ans);
-    }
-
-    bool isLeafNode(Node* node) {
-        if (node == NULL) {
-            return false;
-        }
-        if (node->left == NULL && node->right == NULL) {
-            return true;
-        }
-        return false;
-    }
-
-    void leftBoundary(Node* root, vector<int> &ans) {
-        Node* temp = root->left;
-
-        while(temp) {
-            if (!isLeafNode(temp)) {
-                ans.push_back(temp->data);
-            }
-            if (temp->left) {
-                temp = temp->left;
+            if (temp->left == NULL) {
+                temp->left = newNode;
+                return;
             } else {
-                temp = temp->right;
+                q.push(temp->left);
+            }
+
+            if (temp->right == NULL) {
+                temp->right = newNode;
+                return;
+            } else {
+                q.push(temp->right);
             }
         }
     }
 
-    void rightBoundary(Node* root, vector<int> &ans) {
-        Node* temp = root->right;
-        stack<int> st;
-
-        while(temp) {
-            if (!isLeafNode(temp)) {
-                st.push(temp->data);
-            }
-            if (temp->right) {
-                temp = temp->right;
-            } else{
-                temp = temp->left;
-            }
-        }
-
-        while (!st.empty()) {
-            ans.push_back(st.top());
-            st.pop();
-        }
-    }
-
-    void addLeafNodes (Node* root, vector<int> &ans) {
-        if (isLeafNode(root)) {
-            ans.push_back(root->data);
+    void preOrder(Node* root) {     // TC: O(N) (each node is visited)  SC: O(N) (worst)
+        if (root == NULL) {
             return;
         }
+        stack<Node*> st;
+        st.push(root);
 
-        if (root->left) {
-            addLeafNodes(root->left, ans);
-        }
-        if (root->right) {
-            addLeafNodes(root->right, ans);
+        while(!st.empty()) {
+            Node* temp = st.top();
+            st.pop();
+            cout << temp->data << " ";
+
+            if (temp->right) {
+                st.push(temp->right);
+            }
+            if (temp->left) {
+                st.push(temp->left);
+            }
         }
     }
+
+    void inOrder(Node* root) {     // TC: O(N) (each node is visited)  SC: O(N) (worst)
+        if (root == NULL) {
+            return;
+        }
+        stack<Node*> st;
+        Node* temp = root;
+
+        while(!st.empty() || temp != NULL) {
+            while (temp!= NULL) {
+                st.push(temp);
+                temp = temp->left;
+            }
+            temp = st.top();
+            st.pop();
+            cout << temp->data << " ";
+
+            temp = temp->right;
+        }
+    }
+
+    void postOrder2Stack(Node* root) {     // TC: O(N) (each node is visited)  SC: O(2N) (worst)
+        if (root == NULL) {
+            return;
+        }
+        stack <Node*> st1, st2;
+        st1.push(root);
+
+        while(!st1.empty()) {
+            Node* temp = st1.top();
+            st1.pop();
+            st2.push(temp);
+
+            if (temp->left) {
+                st1.push(temp->left);
+            }
+            if (temp->right) {
+                st1.push(temp->right);
+            }
+        }
+
+        while(!st2.empty()) {
+            cout << st2.top()->data << " ";
+            st2.pop();
+        }
+    }
+
+    void postOrder1Stack(Node* root) {      // TC: O(2N) (pushing & pooping N nodes in stack)   SC: O(N)
+        if (root == NULL) {
+            return;
+        }
+        stack<Node*> st;
+        Node* curr = root;
+        Node* temp;
+
+        while(!st.empty() || curr != NULL) {
+            if (curr != NULL) {
+                st.push(curr);
+                curr =curr->left;
+            } else  {
+                temp = st.top()->right;
+
+                if (temp == NULL) {
+                    temp = st.top();
+                    st.pop();
+                    cout << temp->data << " ";
+
+                    while (!st.empty() && temp == st.top()->right) {
+                        temp = st.top();
+                        st.pop();
+                        cout << temp->data << " ";
+                    }
+                } else {
+                    curr = temp;
+                }
+            }
+        }
+    }
+    
 };
 
 int main() {
     BT tree;
-    int n;
-    cout << "Enter number of elements: ";
-    cin >> n;
-    vector<string> arr(n);
-
-    cout << "Enter the elements: ";
-    for (int i = 0; i < n; i++) {
-        cin >> arr[i];
-    }
-    tree.insertNode(arr);
-
-    vector<int> ans = tree.BoundaryTraversal(tree.root);
-    cout << "Boundary Traversal: ";
-    for (int i : ans) {
-        cout << i << " ";
-    }
-    cout << endl;
+    tree.insertNode(1);
+    tree.insertNode(2);
+    tree.insertNode(3);
+    tree.insertNode(4);
+    tree.insertNode(5);
+    tree.insertNode(6);
+    tree.insertNode(7);
+    tree.insertNode(8);
+    tree.insertNode(9);
+    tree.insertNode(10);
+    
+    cout << "Pre-order traversal: ";
+    tree.preOrder(tree.root);
+    cout << "\nIn-order traversal: ";
+    tree.inOrder(tree.root);
+    cout << "\nPost-order traversal using 2 stacks: ";
+    tree.postOrder2Stack(tree.root);
+    cout << "\nPost-order traversal using 1 stack: ";
+    tree.postOrder1Stack(tree.root);
     return 0;
- }
+}
+
 
 
 // #include <iostream>
