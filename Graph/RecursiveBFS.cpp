@@ -18,6 +18,7 @@ void bfsTraversal(vector<int> adj[], queue<int> &q, vector<int> &vis, vector<int
             q.push(it);
         }
     }
+
     bfsTraversal(adj, q, vis, ans);
 }
 
@@ -26,10 +27,15 @@ vector<int> bfsTraversalHelper(int n, vector<int> adj[]) {
     vector<int> ans;
     queue<int> q;
 
-    vis[1] = 1;
-    q.push(1);
+    // Run BFS for every unvisited node (to handle disconnected graphs)
+    for (int start = 1; start <= n; start++) {
+        if (vis[start] == 0) {
+            vis[start] = 1;
+            q.push(start);
+            bfsTraversal(adj, q, vis, ans);
+        }
+    }
 
-    bfsTraversal(adj, q, vis, ans);
     return ans;
 }
 
