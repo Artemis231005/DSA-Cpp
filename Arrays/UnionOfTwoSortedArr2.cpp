@@ -2,7 +2,8 @@
 #include <vector>
 using namespace std;
 
-vector<int> unionOf2SortedArr(vector<int> vec1, vector<int> vec2) {      // TC:O(n1 + n2)  SC: O(n1 +n2) - just to return ans ans not to actually solve
+// TC:O(n1 + n2)  SC: O(n1 +n2) - just to return ans & not to actually solve
+vector<int> unionOf2SortedArr(vector<int> vec1, vector<int> vec2) {      
     int n1 = vec1.size();
     int n2 = vec2.size();
     int i=0, j=0;
