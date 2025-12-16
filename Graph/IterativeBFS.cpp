@@ -7,7 +7,7 @@ vector<int> BFSTraversal(int N, vector<int> adj[]) {         // TC: O(N) + O(2E)
     // in for loop)      SC: O(3N) (queue, vis, ans)         N is number of nodes
 
     vector<int> ans;
-    int vis[100] = {0};;
+    int vis[100] = {0};
     queue<int> q;
 
     // Loop through all nodes to handle disconnected graph

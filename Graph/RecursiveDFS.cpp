@@ -5,6 +5,7 @@ using namespace std;
 void dfsTraversal(int node, vector<int> adj[], int vis[], vector<int> &ans) {
     vis[node] = 1;
     ans.push_back(node);
+    
     for (auto it: adj[node]) {
         if (!vis[it]) {
             dfsTraversal(it, adj, vis, ans);
@@ -14,7 +15,6 @@ void dfsTraversal(int node, vector<int> adj[], int vis[], vector<int> &ans) {
 
 vector<int> dfsHelper(int N, vector<int> adj[]) {
     vector<int> ans;
-    int start = 1;
     int vis[100] = {0};
     
     for (int i = 1; i <= N; i++) {     // loop through all nodes (handles case of disconnected graphs also otherwise just do dfsTraversal(i, adj, vis, ans);)
