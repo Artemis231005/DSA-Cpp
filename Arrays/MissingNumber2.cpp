@@ -2,7 +2,7 @@
 #include <vector>
 using namespace std;
 
-int findMissingNumber (vector<int> vec, int N) {        
+int findMissingNumber (vector<int> vec, int N) {            // TC: O(2N)   SC: O(N)
     vector<int> hash (N+1, 0);
     for (int i=0; i<N; i++) {
         hash[vec[i]] = 1;
