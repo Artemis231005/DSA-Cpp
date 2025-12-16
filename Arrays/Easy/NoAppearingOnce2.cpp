@@ -2,6 +2,16 @@
 #include <vector>
 using namespace std;
 
+int findMaxElem (vector<int> vec) {
+    int maxElem = vec[0];
+    for (int i=0; i<vec.size(); i++) {
+        if (vec[i] > maxElem) {
+            maxElem = vec[i];
+        }
+    }
+    return maxElem;
+}
+
 int findNoAppearingOnce (vector<int> vec) {         // TC: O(3N)   SC: O(maxElem)  
     // hash arr cant be used for huge inputs (like 10^9), so use map with bigger datatype (ex: map<long long, int>)
     int hsize = findMaxElem(vec) + 1;
@@ -17,16 +27,6 @@ int findNoAppearingOnce (vector<int> vec) {         // TC: O(3N)   SC: O(maxElem
         }
     }
     return -1;
-}
-
-int findMaxElem (vector<int> vec) {
-    int maxElem = vec[0];
-    for (int i=0; i<vec.size(); i++) {
-        if (vec[i] > maxElem) {
-            maxElem = vec[i];
-        }
-    }
-    return maxElem;
 }
 
 void display(vector<int> vec) {
