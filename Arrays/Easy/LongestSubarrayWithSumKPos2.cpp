@@ -21,7 +21,9 @@ int longestSubarrayWithSumK (vector<int> vec, int k) {      // O(nlogn) (logn be
             maxLength = max(maxLength, len);
         }
 
-        preSumMap[sum] = i;
+        if (preSumMap.find(sum) == preSumMap.end()) {    // update only if there isn't an equal sum previously (to get longest ans in case of 0's)
+            preSumMap[sum] = i;
+        }
     }
 
     return maxLength;
