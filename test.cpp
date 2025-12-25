@@ -1,40 +1,54 @@
 #include <iostream>
 #include <vector>
+#include <map>
 using namespace std;
 
-void leftRotateByD (vector<int> &arr, int n) {
-    vector<int> temp;
+int longestSubarrayWithSumK (vector<int> vec, int k) {      // TC: approx O(N^2)   SC: O(1)
+    int n = vec.size();
+    int left = 0, right = 0;
+    int sum = vec[0];
+    int llength = 0;
+
     for (int i=0; i<n; i++) {
-        if (arr[i] != 0) {
-            temp.push_back(arr[i]);
+        if (left <= right && sum > k) {
+            sum -= vec[left];
+            left ++;
+        }
+
+        if (sum == k) {
+            llength = max (llength, right - left + 1);
+        }
+
+        right++;
+        if (right < n) {
+            sum += vec[right];
         }
     }
-    int tempsize = temp.size();
-    for (int i=0; i<tempsize; i++) {
-        arr[i] = temp[i];
-    }
-    for (int i=tempsize; i<n; i++) {
-        arr[i] = 0;
-    }
+
+    return llength;
 }
 
-int main() {
-    vector<int> vec;
-    int n;
-    int val;
-    cout << "Enter size: ";
-    cin >> n;
-
-    cout << "Enter the elements: ";
-    for (int i=0; i<n; i++) {
-        cin >> val;
-        vec.push_back(val);
-    }
-
-    cout << "Vector left rotated by 1: ";
-    leftRotateByD(vec, n);
+void display(vector<int> vec) {
     for (int i: vec) {
         cout << i << " ";
     }
+    cout << endl;
+}
+
+int main() {
+    int n, elem;
+    vector<int> vec;
+    cout << "Enter the size: ";
+    cin >> n;
+    cout << "Enter the elements: ";
+    for (int i = 0; i < n; i++) {
+        cin >> elem;
+        vec.push_back(elem);
+    }
+
+    int k;
+    cout << "Enter target sum: ";
+    cin >> k;
+    cout << "Longest subarray with sum " << k << " is: " << longestSubarrayWithSumK(vec, k);
     return 0;
 }
