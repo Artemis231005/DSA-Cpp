@@ -3,7 +3,7 @@
 #include<climits>
 using namespace std;
 
-int maxSubarraySum (vector<int> vec) {      // 
+int maxSubarraySum (vector<int> vec) {      // TC: O(N^2)   SC: O(1)
     int maxSum = INT_MIN;
 
     for (int i=0; i<vec.size(); i++) {
