@@ -3,7 +3,7 @@
 using namespace std;
 
 // No of pos and neg elem not guaranteed to be equal
-vector<int> alternateNo (vector<int> vec) {  
+vector<int> alternateNo (vector<int> vec) {     // TC: O(2N) (all +ve or -ve)  SC: O()
     int n = vec.size();
     vector<int> ans(n);
     vector<int> pos;
