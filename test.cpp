@@ -1,54 +1,75 @@
 #include <iostream>
 #include <vector>
-#include <map>
+#include <queue>
+#include <climits>
 using namespace std;
 
-int longestSubarrayWithSumK (vector<int> vec, int k) {      // TC: approx O(N^2)   SC: O(1)
-    int n = vec.size();
-    int left = 0, right = 0;
-    int sum = vec[0];
-    int llength = 0;
+bool bfs(int s, int t, vector<vector<int>> &residual,
+         vector<int> &parent, int V) {
 
-    for (int i=0; i<n; i++) {
-        if (left <= right && sum > k) {
-            sum -= vec[left];
-            left ++;
-        }
+    vector<bool> visited(V, false);
+    queue<int> q;
 
-        if (sum == k) {
-            llength = max (llength, right - left + 1);
-        }
+    q.push(s);
+    visited[s] = true;
+    parent[s] = -1;
 
-        right++;
-        if (right < n) {
-            sum += vec[right];
+    while (!q.empty()) {
+        int u = q.front();
+        q.pop();
+
+        for (int v = 0; v < V; v++) {
+            if (!visited[v] && residual[u][v] > 0) {
+                parent[v] = u;
+                visited[v] = true;
+                if (v == t)
+                    return true;
+                q.push(v);
+            }
         }
     }
-
-    return llength;
+    return false;
 }
 
-void display(vector<int> vec) {
-    for (int i: vec) {
-        cout << i << " ";
+/* Maximum number of edge-disjoint paths = Max Flow
+   (all edges have capacity 1) */
+int maxEdgeDisjointPaths(vector<vector<int>> &graph, int s, int t, int V) {
+    vector<vector<int>> residual = graph;
+    vector<int> parent(V);
+    int maxFlow = 0;
+
+    while (bfs(s, t, residual, parent, V)) {
+        int pathFlow = INT_MAX;
+
+        for (int v = t; v != s; v = parent[v]) {
+            int u = parent[v];
+            pathFlow = min(pathFlow, residual[u][v]);
+        }
+
+        for (int v = t; v != s; v = parent[v]) {
+            int u = parent[v];
+            residual[u][v] -= pathFlow;
+            residual[v][u] += pathFlow;
+        }
+
+        maxFlow += pathFlow;
     }
-    cout << endl;
+    return maxFlow;
 }
 
 int main() {
-    int n, elem;
-    vector<int> vec;
-    cout << "Enter the size: ";
-    cin >> n;
-    cout << "Enter the elements: ";
-    for (int i = 0; i < n; i++) {
-        cin >> elem;
-        vec.push_back(elem);
-    }
+    int V = 6;          
+    int s = 0, t = 5;   
 
-    int k;
-    cout << "Enter target sum: ";
-    cin >> k;
-    cout << "Longest subarray with sum " << k << " is: " << longestSubarrayWithSumK(vec, k);
+    vector<vector<int>> graph = {
+        {0,1,1,0,0,0},
+        {0,0,1,1,0,0},
+        {0,0,0,1,1,0},
+        {0,0,0,0,1,1},
+        {0,0,0,0,0,1},
+        {0,0,0,0,0,0}
+    };
+
+    cout << maxEdgeDisjointPaths(graph, s, t, V);
     return 0;
 }
