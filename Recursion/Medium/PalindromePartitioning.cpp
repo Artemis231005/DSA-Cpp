@@ -26,6 +26,7 @@ void partition(int idx, string s, vector<string> &path, vector<vector<string>> &
     }
 }
 
+// TC: O(n * 2^n)  (2^n partitions and palindrome check requires O(n))   SC: O(n * 2^n)
 vector<vector<string>> generatePartitions(string s) {
     vector<vector<string>> ans;
     vector<string> path;
