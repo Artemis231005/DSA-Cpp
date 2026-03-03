@@ -2,23 +2,28 @@
 #include <vector>
 using namespace std;
 
-void findPermutations(int idx, vector<int>& vec, vector<vector<int>>& ans) {
-    if (idx == vec.size()) {
-        ans.push_back(vec);
+void display(vector<int> arr) {
+    if (arr.empty()) {
+        cout << "{}";
+    } else {
+        for (int i: arr) {
+            cout << i << " ";
+        }
+    }
+    cout << endl;
+}
+
+void printSubsequences(int idx, vector<int>& vec, vector<int> &store, int n) {
+    if (idx >= n) {
+        display(store);
         return;
     }
 
-    for(int i=idx; i<vec.size(); i++) {
-        swap(vec[idx], vec[i]);
-        findPermutations(idx+1, vec, ans);
-        swap(vec[idx], vec[i]);
-    }
-}
+    store.push_back(vec[idx]);
+    printSubsequences(idx+1, vec, store, n);
+    store.pop_back();
 
-vector<vector<int>> permute(vector<int> vec) {
-    vector<vector<int>> ans;
-    findPermutations(0, vec, ans);
-    return ans;
+    printSubsequences(idx+1, vec, store, n);
 }
 
 int main() {
@@ -34,13 +39,8 @@ int main() {
         vec.push_back(val);
     }
 
-    cout << "The permutations are: " << endl;
-    vector<vector<int>> ans = permute(vec);
-    for (vector<int> i : ans) {
-        for (int j : i) {
-            cout << j << " ";
-        }
-        cout << endl;
-    }
+    vector<int> store;
+    cout << "Subsequences of the array are: " << endl;
+    printSubsequences(0, vec, store, n);
     return 0;
 }
