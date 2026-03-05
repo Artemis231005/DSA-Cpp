@@ -1,29 +1,24 @@
-#include <iostream>
-#include <vector>
+#include<iostream>
+#include<vector>
+#include<algorithm>
 using namespace std;
 
-void display(vector<int> arr) {
-    if (arr.empty()) {
-        cout << "{}";
-    } else {
-        for (int i: arr) {
-            cout << i << " ";
-        }
-    }
-    cout << endl;
-}
-
-void printSubsequences(int idx, vector<int>& vec, vector<int> &store, int n) {
-    if (idx >= n) {
-        display(store);
+void findSubsetSum(int idx, int sum, vector<int> &vec, vector<int> &sumofSubsets) {
+    if (idx == vec.size()) {
+        sumofSubsets.push_back(sum);
         return;
     }
 
-    store.push_back(vec[idx]);
-    printSubsequences(idx+1, vec, store, n);
-    store.pop_back();
+    findSubsetSum(idx + 1, sum + vec[idx], vec, sumofSubsets);
 
-    printSubsequences(idx+1, vec, store, n);
+    findSubsetSum(idx + 1, sum, vec, sumofSubsets);
+}
+
+vector<int> subsetSums(vector<int> &vec, int n) {
+    vector<int> sumofSubsets;
+    findSubsetSum(0, 0, vec, sumofSubsets);
+    sort(sumofSubsets.begin(), sumofSubsets.end());
+    return sumofSubsets;
 }
 
 int main() {
@@ -39,8 +34,11 @@ int main() {
         vec.push_back(val);
     }
 
-    vector<int> store;
-    cout << "Subsequences of the array are: " << endl;
-    printSubsequences(0, vec, store, n);
+    cout << "Subset sums of the array are: " << endl;
+    vector<int> ans = subsetSums(vec, n);
+
+    for (auto i: ans) {
+        cout << i << " ";
+    }
     return 0;
 }
