@@ -3,6 +3,7 @@
 #include<queue>
 using namespace std;
 
+// TC: O(e loge)   SC: O(e)
 int findSumMST(vector<vector<int>> adj[], int v) {
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
     vector<int> vis(v, 0);
@@ -10,8 +11,9 @@ int findSumMST(vector<vector<int>> adj[], int v) {
     pq.push({0, 0});
     int sum = 0;
 
+    // runs for e times
     while (!pq.empty()) {
-        auto it = pq.top();
+        auto it = pq.top();         // takes log(pq.size()) -> log(e)
         pq.pop();
         int node = it.second;
         int wt = it.first;
@@ -22,6 +24,7 @@ int findSumMST(vector<vector<int>> adj[], int v) {
         vis[node] = 1;
         sum += wt;
 
+        // e log e
         for (auto it: adj[node]) {
             int adjNode = it[0];
             int eWt = it[1];
