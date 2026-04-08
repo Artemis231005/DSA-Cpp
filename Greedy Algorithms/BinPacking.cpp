@@ -2,7 +2,6 @@
 #include<vector>
 using namespace std;
 
-
 // TC: O(n^2)   SC: O(N)
 int firstFit(int n, int capacity, vector<int>& items) {
     vector<int> binRem(n, capacity); // remaining capacity
@@ -10,13 +9,14 @@ int firstFit(int n, int capacity, vector<int>& items) {
 
     for(int i = 0; i < n; i++) {
         int j;
+
         for(j = 0; j < bins; j++) {
             if(binRem[j] >= items[i]) {
                 binRem[j] -= items[i];
                 break;
             }
         }
-
+        
         if(j == bins) {
             binRem[bins] = capacity - items[i];
             bins++;
