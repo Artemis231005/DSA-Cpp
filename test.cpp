@@ -1,44 +1,20 @@
 #include<iostream>
-#include<vector>
-#include<algorithm>
 using namespace std;
 
-void findSubsetSum(int idx, int sum, vector<int> &vec, vector<int> &sumofSubsets) {
-    if (idx == vec.size()) {
-        sumofSubsets.push_back(sum);
-        return;
+// TC: O(N)   SC: O(1)
+int xorinGivenRange(int N) {
+    int ans = 0;
+    for (int i=1; i<=N; i++) {
+        ans = ans ^ i;
     }
-
-    findSubsetSum(idx + 1, sum + vec[idx], vec, sumofSubsets);
-
-    findSubsetSum(idx + 1, sum, vec, sumofSubsets);
+    return ans;
 }
 
-vector<int> subsetSums(vector<int> &vec, int n) {
-    vector<int> sumofSubsets;
-    findSubsetSum(0, 0, vec, sumofSubsets);
-    sort(sumofSubsets.begin(), sumofSubsets.end());
-    return sumofSubsets;
-}
-
-int main() {
-    int n, val;
-    vector<int> vec;
-
-    cout << "Enter size of vector: ";
+int main(){
+    int n;
+    cout << "Enter a number: ";
     cin >> n;
-
-    cout <<"Enter values: ";
-    for (int i = 0; i < n; i++) {
-        cin >> val;
-        vec.push_back(val);
-    }
-
-    cout << "Subset sums of the array are: " << endl;
-    vector<int> ans = subsetSums(vec, n);
-
-    for (auto i: ans) {
-        cout << i << " ";
-    }
+    
+    cout << "Xor from 1 to " << n << " is: " << xorinGivenRange(n);
     return 0;
 }
