@@ -4,8 +4,8 @@ using namespace std;
 
 // TC: O(log N)   SC: O(1)
 int iterativeBinarySearch(vector<int> vec, int target) {
-    int low = vec[0];
-    int high = vec[vec.size()-1];
+    int low = 0;
+    int high = vec.size()-1;
 
     while (low <= high) {
         int mid = low + (high - low) / 2;
