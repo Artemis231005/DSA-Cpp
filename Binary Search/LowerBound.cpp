@@ -44,6 +44,9 @@ int main() {
     cout << "Enter target element: ";
     cin >> target;
 
-    cout << "Target found at: " << lowerBound(vec, target);
+    cout << "Lower bound of target using iteration found at: " << lowerBound(vec, target) << endl;
+    cout << "Lower bound of target using lower bound method found at: " << lower_bound(vec.begin(), vec.end(), target) - vec.begin();
+    // lower_bound(vec.begin(), vec.end(), target); return iterator pointing to the index
+    // To gete index, subtract vec.begin()
     return 0;
 }
