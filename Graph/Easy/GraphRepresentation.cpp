@@ -40,11 +40,11 @@ int main() {
 
     vector<int> adjList[100];
     // vector<int> adj[n+1];                        // For 1-based indexing 
-    // vector<int> adj[n+1];                        // For 0-based indexing
+    // vector<int> adj[n];                          // For 0-based indexing
 
     for (int i=0; i<m; i++) {                       // TC: O(N)     SC: O(2E)
         cin >> u >> v;
-        adjList[u].push_back(v);                        // On u-th index, store v
+        adjList[u].push_back(v);                    // On u-th index, store v
         adjList[v].push_back(u);
     }
 
